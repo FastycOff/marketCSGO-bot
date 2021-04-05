@@ -3,7 +3,6 @@ import json
 
 key = "0ZOhGE1B47jm79qcL624pr3xHI6O81Q"
 
-
 ###############################Поиск всех цен по названию предмета#################################################################
 
 def price_f6():
@@ -101,9 +100,8 @@ def balance():
     print(request['success'])
     print(request['money'])
     import requests
-
-key = 'TgS53cPpfU3u6w2xV83a3b4L94p9gkj'
-def iinv:
+    
+def checkInv():
     urlinv = 'https://market.csgo.com/api/v2/my-inventory/?key='+key
     inventory = requests.get(urlinv).json()
     inv = str(inventory['items'])
