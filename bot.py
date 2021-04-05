@@ -100,3 +100,17 @@ def balance():
     
     print(request['success'])
     print(request['money'])
+    import requests
+
+key = 'TgS53cPpfU3u6w2xV83a3b4L94p9gkj'
+def iinv:
+    urlinv = 'https://market.csgo.com/api/v2/my-inventory/?key='+key
+    inventory = requests.get(urlinv).json()
+    inv = str(inventory['items'])
+
+    for i in inventory['items']:
+    
+        print(i['market_hash_name'])
+        print('цена: ',i['market_price'])
+        print('')
+
