@@ -1,6 +1,9 @@
 import requests
 import json
+import time
+from pushbullet import Pushbullet
 
+PuBkey = "o.sRz4z4yW9hbiZ9voDl4Vu6zaA6HKwHA1"
 key = "0ZOhGE1B47jm79qcL624pr3xHI6O81Q"
 
 ###############################Поиск всех цен по названию предмета#################################################################
@@ -23,6 +26,7 @@ def price_f6():
         print("Цена четвертого лота: ",  str(price[3]["price"])  .replace(' ', '')[:-2])
     except IndexError:
         print("нет предмета")
+    time.sleep(0.66)
 
     gun = requests.get(url+' (Minimal Wear)').json()
     price = gun["data"]
@@ -38,6 +42,7 @@ def price_f6():
         print(".")
     except IndexError:
         print("нет предмета")
+    time.sleep(0.66)
     
 
     gun = requests.get(url+" (Well-Worn)").json()
@@ -53,6 +58,7 @@ def price_f6():
         print(".")
     except IndexError:
         print("нет предмета")
+    time.sleep(0.66)
 
     gun = requests.get(url+" (Field-Tested)").json()
     price = gun["data"]
@@ -67,6 +73,7 @@ def price_f6():
         print(".")
     except IndexError:
         print("нет предмета")
+    time.sleep(0.66)
 
     gun = requests.get(url+" (Battle-Scarred)").json()
     price = gun["data"]
@@ -80,12 +87,13 @@ def price_f6():
         print("Цена четвертого лота: ",  str(price[3]["price"])  .replace(' ', '')[:-2])
     except IndexError:
         print("нет предмета")
+    time.sleep(0.66)
         
 ######################Не сделано(Нужно с api steam)
 #def autoaccept():
     #urla = "https://market.csgo.com/api/v2/trade-request-give-p2p-all?key="+key # данные для создания всех трейдов
     #urlb = "" # запрос на передачу вещей
-    #trade = requests.get(urla).json
+    #trade = requests.get(urla).json()
     #print(trade)
 
 ###################Не сделано(Не работает)
@@ -93,14 +101,14 @@ def price_f6():
     #urlsteam = "http://steamcommunity.com/market/priceoverview/?appid=570&market_hash_name="+name
     #steamp = requests.get(urlsteam)").json()
     #print(steamp)
+
 def balance():
     urlmoney = 'https://market.csgo.com/api/v2/get-money?key='+key
     request = requests.get(urlmoney).json()
-    
     print(request['success'])
     print(request['money'])
-    import requests
-    
+
+
 def checkInv():
     urlinv = 'https://market.csgo.com/api/v2/my-inventory/?key='+key
     inventory = requests.get(urlinv).json()
@@ -112,3 +120,16 @@ def checkInv():
         print('цена: ',i['market_price'])
         print('')
 
+
+def trade():
+    urltr ="https://market.csgo.com/api/ItemRequest/in/1/?key="+ key
+    accept = requests.post(urltr).json()
+    accept1 = requests.get(urltr).json()
+    print(accept)
+    print(accept1)
+
+def notification():
+    pb= Pushbullet('PuBkey')
+    push = pb.push_note("S","Accept")
+    print("уведомление создано")
+    print(push)
