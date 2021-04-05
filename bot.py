@@ -129,7 +129,7 @@ def trade():
     print(accept1)
 
 def notification():
-    pb= Pushbullet('PuBkey')
+    pb= Pushbullet(PuBkey)
     push = pb.push_note("S","Accept")
     print("уведомление создано")
     print(push)
