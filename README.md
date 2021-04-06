@@ -7,9 +7,7 @@ pip install time
 PuBkey here - "https://www.pushbullet.com/#settings/account" like access tokens
 Key here - "https://market.csgo.com/docs" like API
 
-gun from steam market like "m4a4 | desolate space"
-
-ping.py - auto confirmation online on csgo market
+gun from steam market like "m4a4 | desolate space
 
 bot.py - bot on csgomarket with:
     
