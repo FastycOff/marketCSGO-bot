@@ -4,8 +4,8 @@ import json
 import time
 from pushbullet import Pushbullet
 
-PUBkey = "o.XA4cCFrk1CkRgY4HFk4oUffqLWFUql0C"
-key = "9zwz7eDBiv67Bg0JdcsBoK4Zxw0rGgK"
+PUBkey = "key from pushbullet"
+key = "marketcsgo api"
 
 ###############################Поиск всех цен по названию предмета#################################################################
 
