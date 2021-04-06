@@ -1,19 +1,19 @@
+import threading
 import requests
 import json
 import time
 from pushbullet import Pushbullet
 
-PuBkey = "o.sRz4z4yW9hbiZ9voDl4Vu6zaA6HKwHA1"
-key = "0ZOhGE1B47jm79qcL624pr3xHI6O81Q"
+PUBkey = "o.XA4cCFrk1CkRgY4HFk4oUffqLWFUql0C"
+key = "9zwz7eDBiv67Bg0JdcsBoK4Zxw0rGgK"
 
 ###############################Поиск всех цен по названию предмета#################################################################
 
 def price_f6():
     global name
-    name = input("Введите название предмета из стима: ")
-    url = 'https://market.csgo.com/api/v2/search-item-by-hash-name-specific?key='+key+'&hash_name='+name
-    
-    gun = requests.get(url+' (Factory New)').json()
+    name = input("Введите название предмета из стима: " )
+    url = 'https://market.csgo.com/api/v2/search-item-by-hash-name-specific?key='+key+'&hash_name='+name 
+    gun = requests.get(url+' (Factory New)' ).json()
     price = gun["data"]
     
     try:
@@ -88,19 +88,6 @@ def price_f6():
     except IndexError:
         print("нет предмета")
     time.sleep(0.66)
-        
-######################Не сделано(Нужно с api steam)
-#def autoaccept():
-    #urla = "https://market.csgo.com/api/v2/trade-request-give-p2p-all?key="+key # данные для создания всех трейдов
-    #urlb = "" # запрос на передачу вещей
-    #trade = requests.get(urla).json()
-    #print(trade)
-
-###################Не сделано(Не работает)
-#def steamprice():
-    #urlsteam = "http://steamcommunity.com/market/priceoverview/?appid=570&market_hash_name="+name
-    #steamp = requests.get(urlsteam)").json()
-    #print(steamp)
 
 def balance():
     urlmoney = 'https://market.csgo.com/api/v2/get-money?key='+key
@@ -108,6 +95,7 @@ def balance():
     print(request['success'])
     print(request['money'])
 
+#checking inventory for items that you can sell
 
 def checkInv():
     urlinv = 'https://market.csgo.com/api/v2/my-inventory/?key='+key
@@ -122,14 +110,55 @@ def checkInv():
 
 
 def trade():
+    global accept
     urltr ="https://market.csgo.com/api/ItemRequest/in/1/?key="+ key
     accept = requests.post(urltr).json()
-    accept1 = requests.get(urltr).json()
     print(accept)
-    print(accept1)
+
+######## используется для "selling" (отправляет уведомление на pushbullet)
 
 def notification():
-    pb= Pushbullet(PuBkey)
+    pb = Pushbullet(PUBkey)
     push = pb.push_note("S","Accept")
     print("уведомление создано")
     print(push)
+    
+######## Используется для "selling_mode" (отправляет запрос и проверяет на верность и если так, то отправляет уведомление на pushbullet)
+
+def selling():
+
+        urlTrade ="https://market.csgo.com/api/ItemRequest/in/1/?key="+ key
+        
+        while True:
+            1==1
+            acceptGive = requests.get(urlTrade).json()
+            print("Оффер готов: ",acceptGive["success"])
+            
+            if acceptGive["success"] == True:
+                notification()
+                time.sleep(30)    
+            else: 
+                time.sleep(30)
+        
+######## Используется для "selling_mode" (отправляет запрос на включение продаж)
+
+def pinging():
+    while True:
+        1==1
+        
+        url = 'https://market.csgo.com/api/v2/ping?key='+key
+        ping = requests.get(url).json()
+        
+        print("Продаются вещи: ",ping["success"])
+        time.sleep(130)
+
+
+def selling_mode():
+    t2 = threading.Thread(target=selling)
+    t1 = threading.Thread(target=pinging)
+    
+    t2.start()
+    t1.start()
+    
+
+
