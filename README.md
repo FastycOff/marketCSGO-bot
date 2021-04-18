@@ -5,8 +5,8 @@
 Для работы приложения нажмите "Расширенные возможности" и впишите как минимум "market csgo API"
 
 
-PuBkey here - "https://www.pushbullet.com/#settings/account" like access tokens
-Key here - "https://market.csgo.com/docs" like API
+PuBkey here - "https://www.pushbullet.com/#settings/account" 
+Key here - "https://market.csgo.com/docs" 
 
 Пример оружия для поиска цен "m4a4 | desolate space"
 
