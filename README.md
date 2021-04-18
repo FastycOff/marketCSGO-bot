@@ -1,17 +1,17 @@
-pip install requests
-pip install pushbullet.py
-pip install json
-pip install time
+Если вы сможете вписать автоматическое подтверждение трейдов - добро пожаловать
+
+Все функции для подтверждения трейдов по стимгуарду есть(напрмер, получение информации о трейде), кроме, как самого подтверждения
+
+Для работы приложения нажмите "Расширенные возможности" и впишите как минимум "market csgo API"
 
 
 PuBkey here - "https://www.pushbullet.com/#settings/account" like access tokens
 Key here - "https://market.csgo.com/docs" like API
 
-gun from steam market like "m4a4 | desolate space
+Пример оружия для поиска цен "m4a4 | desolate space"
 
 bot.py - bot on csgomarket with:
     
-    *auto accept steam trade + sending notification to pushbullet(phone or pc)
     
     *checking prices of gun on csgomarket
     
