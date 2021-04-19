@@ -8,6 +8,8 @@ import hashlib
 import os.path
 import webbrowser
 import tkinter
+import ctypes, sys
+
 
 active = 0
 b = 0
@@ -37,6 +39,8 @@ def openBrowserBullet(event):
 
 def addoning():
     def savekeys():
+        global key
+        global PUBkey
         try:
             file = open(r"C:\config.txt","w")
             Mapi = Markt.get().replace(" ","")
@@ -45,12 +49,20 @@ def addoning():
             file.write(Mapi)
             file.write("\n")
             file.write(Papi)
-            
             file.close()
-    
-        
+            
+            file = open(r"C:\config.txt","r")
+            data = file.readlines()
+            b = 1
+            key = data[0][:-1]
+            PUBkey = data[1]
+            file.close()
+            
         except PermissionError:
             print("Недостаточно прав, запустите от имени администратора")
+            quit()
+
+
         
     addon = Toplevel()
     addon.title("Дополнительные возможности")
@@ -97,6 +109,7 @@ def addoning():
 combo = Combobox(window)
 combo2 = Combobox(window)
 combo3 = Combobox(window)
+combo4 = Combobox(window)
 
 name = "s"
         
@@ -129,15 +142,20 @@ t3.do_run = False
 
 ############################### Поиск всех цен по названию предмета #################################################################
 
-def price_f6(name):
+def price_f6(names):
     
     valG = [".",]
     value = []
-    url = 'https://market.csgo.com/api/v2/search-item-by-hash-name-specific?key='+key+'&hash_name='+name
+    urlsteam = 'http://steamcommunity.com/market/priceoverview/?appid=730&currency=5&market_hash_name='+names
+    url = 'https://market.csgo.com/api/v2/search-item-by-hash-name-specific?key='+key+'&hash_name='+names
     
     try:
         
         gun = requests.get(url+' (Factory New)' ).json()
+        gunsteam = requests.get(urlsteam+' (Factory New)' ).json()
+
+        pricesteam = gunsteam
+        print(pricesteam["median_price"])
         price = gun["data"]
     
         value = "Прямо с завода ",
@@ -421,7 +439,7 @@ def actOff():
 def closing():
     quit()  
      
-### кнопки
+
 but1= Button(window, text = "Узнать цену по предмету", command=clicked)
 but2= Button(window, text = "Press", command =balance)
 but3= Button(window, text = "Check", command =checkInv)
@@ -432,7 +450,7 @@ but7= Button(window, text = "EXIT", command = closing)
 #but8= Button(addon, text = "check notification", command = notification)
 but9= Button(window, text = "Расширенные возможности", command = addoning)
 
-#### "Этикетки"
+
 lab1= Label(window, text = "                 Узнать баланс                    ", bg="black", fg="red")
 lab2= Label(window, text = " Посмотреть инвентарь и продать ", bg="black", fg="red")
 lab3= Label(window, text = "               Продажи на сайте               ", bg="black",fg="red")
@@ -447,11 +465,10 @@ lab44= Label(window, text = "_________________________________________",fg="red"
 
 ent1= Entry(window, width=5)
 
-### Разметка
-
 but1.grid(column=1, row=0)      #### 1 строка
 combo.grid(column=0, row=0)
 combo3.grid(column=3,row=0)
+combo4.grid(column=4,row=0)
 labX.grid(column=2,row=0)
 
 but2.grid(column=1,row=1)       #### 2 строка
@@ -467,10 +484,12 @@ combo2.grid(column=3,row=2)
 ent1.grid(column=5,row=2)
 #lab9.grid(column=7,row=2)
 
+
+
 lab3.grid(column=0,row=3)       #### 4 строка
 but5.grid(column=1,row=3)
 but6.grid(column=2,row=3)
-#lab6.grid(column=3,row=3)      #### находится в 228 строке файла
+#lab6.grid(column=3,row=3)#### находится в 228 строке файла
 
 lab44.grid(column=0,row=4)      #### 5 строка
 
@@ -484,15 +503,46 @@ but7.grid(column=0,row=7)       #### 8 строка
 
 ### Переписать Api ключи
 
-#labA.grid(column=0,row=1)       #### Обновление Api - ключей
-#Markt.grid(column=1,row=1)
-#labB.grid(column=2,row=1)
-#Bullet.grid(column=3,row=1)
-#butA.grid(column=4,row=1)
-
 ### Проверить Уведомления
 
 #but8= Button(addon, text = "check notification", command = notification)
 #but8.grid(column=0,row=0)
 
 window.mainloop()
+
+
+
+
+
+
+
+
+
+       
+       
+       
+       
+
+
+
+    
+
+
+
+
+
+
+
+
+            
+
+
+        
+    
+
+
+
+
+
+
+    
