@@ -140,7 +140,7 @@ t3 = threading.Thread(target = start)
 t3.start()
 t3.do_run = False
 
-############################### Поиск всех цен по названию предмета #################################################################
+############################### Comraring prices #################################################################
 
 def price_f6(names):
     
@@ -271,12 +271,12 @@ def price_f6(names):
         combo3["values"]= valG
 
         
-### Собирает информацию о трейде, который надо подтвердить, чтобы отдать предмет (Желательно для автоматического подтверждения трейдов)    
-def GiveTradeInfo():
+### Geting information about trade that you need send
+def GetTradeInfo():
     url = "https://market.csgo.com/api/v2/trade-request-give-p2p-all?key="+key
     request = requests.get(url).json()
 
-### Собирает информацию о трейде, который надо получить (необязательная функция)
+### Geting information about trade that you need take
 def TakeTradeInfo():
     url = "https://market.csgo.com/api/v2/trade-request-take?key="+key
     request = requests.get(url).json()
@@ -284,7 +284,7 @@ def TakeTradeInfo():
 
     
                                                                
-### Создать запрос на получение купленных предметов                                                            
+### Request of buying item                                                           
 def TakeItems():
     url = "https://market.csgo.com/api/v2/trade-request-take?key="+key
     request = requests.get(url).json()
@@ -298,7 +298,7 @@ def TakeItems():
 
     
 
-####### Проверяет и пишет баланс
+####### Check balance
 
 def balance():
     global lab11
@@ -318,7 +318,7 @@ def balance():
 
 
 
-######## используется для "selling" (отправляет уведомление на pushbullet)
+######## using by "selling" (sends notification to Pushbullet)
 
 def notification():
     pb = Pushbullet(PUBkey)
@@ -326,7 +326,7 @@ def notification():
     print("уведомление создано")
     print(push)
     
-######## Используется для "selling_mode" (отправляет запрос и проверяет на верность и если так, то отправляет уведомление на pushbullet)
+######## using by "selling_mode" (Checks if trade avaible)
 
 def selling():
             urlTrade ="https://market.csgo.com/api/ItemRequest/out/1/?key="+ key
@@ -351,7 +351,7 @@ def selling():
                     # Ошибка в отправке запроса на принятие трейда и отправки уведомления  
     
         
-######## Используется для "selling_mode" (отправляет запрос на включение продаж)
+######## turn on sales
 
 def pinging():
     global lab6
@@ -369,7 +369,7 @@ def pinging():
             print("Ошибка #2")
             # Ошибка в отправке запроса на включение трейда
     
-######## Активирует продажи и включает их
+######## Saling mode
 
 def selling_mode():
     t2 = threading.Thread(target=selling)
@@ -378,7 +378,7 @@ def selling_mode():
     t2.start()
     t1.start()
     
-####### Обновляет инвентарь и пишет скины, которые можно продать, предлагает сразу продать предмет
+####### Refresh inventory
 
 def checkInv():
     global values
@@ -403,7 +403,7 @@ def checkInv():
         combo2["values"]= val
     combo2.current(0)
 
-###### используется в "checkInv"
+###### using by "checkInv"
 
 def sellgun():
     currency = "RUB"
@@ -509,40 +509,3 @@ but7.grid(column=0,row=7)       #### 8 строка
 #but8.grid(column=0,row=0)
 
 window.mainloop()
-
-
-
-
-
-
-
-
-
-       
-       
-       
-       
-
-
-
-    
-
-
-
-
-
-
-
-
-            
-
-
-        
-    
-
-
-
-
-
-
-    
