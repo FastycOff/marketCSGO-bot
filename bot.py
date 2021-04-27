@@ -10,7 +10,6 @@ import webbrowser
 import tkinter
 import ctypes, sys
 
-
 active = 0
 b = 0
 if os.path.exists(r"C:\config.txt"):
