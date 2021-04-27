@@ -9,7 +9,6 @@ import os.path
 import webbrowser
 import tkinter
 import ctypes, sys
-from colorama import Fore, Back, Style
 
 
 active = 0
