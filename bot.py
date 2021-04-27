@@ -9,11 +9,13 @@ import os.path
 import webbrowser
 import tkinter
 import ctypes, sys
+from colorama import Fore, Back, Style
 
 
 active = 0
 b = 0
 if os.path.exists(r"C:\config.txt"):
+    global key
     try:
     
         file = open(r"C:\config.txt","r")
@@ -22,7 +24,6 @@ if os.path.exists(r"C:\config.txt"):
         key = data[0][:-1]
         PUBkey = data[1]
         file.close()
-
     
     except IndexError:
         print("Нет одного/нескольких Api-ключей")
@@ -51,13 +52,6 @@ def addoning():
             file.write(Papi)
             file.close()
             
-            file = open(r"C:\config.txt","r")
-            data = file.readlines()
-            b = 1
-            key = data[0][:-1]
-            PUBkey = data[1]
-            file.close()
-            
         except PermissionError:
             print("Недостаточно прав, запустите от имени администратора")
             quit()
@@ -72,14 +66,11 @@ def addoning():
     
     Markt = Entry(addon, width=5)
     Bullet = Entry(addon, width=5)
-    if b == 1:
-        try:
-            Bullet.insert(0,PUBkey)
-            Markt.insert(0, key)
-        except Exception:
-            print(1)
-     
 
+    
+    Bullet.insert(0,PUBkey)
+    Markt.insert(0, key)
+    
     labA = Label(addon, text = "MarketApi:",bg="black",fg="red")
     labB = Label(addon, text = "PushAPI:",bg="black",fg="red")
     butA = Button(addon, text ="Update",command=savekeys)
@@ -116,24 +107,25 @@ name = "s"
 ####################################################################################################################################
 def start():
     global lab6
+    try:
+        ping = requests.get('https://market.csgo.com/api/v2/ping?key='+key).json()
+        lab6= Label(window,text=str(ping["success"]), bg="gray",fg="purple")
     
-    ping = requests.get('https://market.csgo.com/api/v2/ping?key='+key).json()
-    lab6= Label(window,text=str(ping["success"]), bg="gray",fg="purple")
+        combo3["values"] = "Тут будут цены",
+        combo3.current(0)
     
-    combo3["values"] = "Тут будут цены",
-    combo3.current(0)
-    
-    combo2["values"] = "Нажмите Check",
-    combo2.current(0)
+        combo2["values"] = "Нажмите Check",
+        combo2.current(0)
 
-    combo["values"] = "Выберите оружие",
-    combo.current(0)
-    combo['values'] = ("AK-47 | ","AUG | ","AWP | ","Bayonet | ","Bowie Knife | ","Butterfly Knife | ", "Classic Knife | ", "CZ75-Auto | ","Desert Eagle | ","Dual Berettas | ",
-    "Falchion Knife | ","FAMAS | ","Five-SeveN | ","Flip Knife | ","G3SG1 | ","Galil AR | ","Glock-18 | ","Gut Knife | ", "Huntsman Knife | ","Karambit | ","M249 | ", "M4A1-S | ",
-    "M4A4 | ","M9 Bayonet | ", "MAC-10 | ","MAG-7 | ","MP5-SD | ","MP7 | ", "MP9 | ", "Navaja Knife | ","Negev | ", "Nomad Knife | ","Nova | ","P2000 | ","P250 | ", "P90 | ", "Paracord Knife | ",
-    "PP-Bizon | ","R8 Revolver | ","Sawed-Off | ","SCAR-20 | ", "SG 553 | ", "Shadow Daggers | ","Skeleton Knife | ", "SSG 08 | ","Stiletto Knife | ","Survival Knife | ","Talon Knife | ","Tec-9 | ",
-    "UMP-45 | ","Ursus Knife | ", "USP-S | ", "XM1014 | ")
-    
+        combo["values"] = "Выберите оружие",
+        combo.current(0)
+        combo['values'] = ("AK-47 | ","AUG | ","AWP | ","Bayonet | ","Bowie Knife | ","Butterfly Knife | ", "Classic Knife | ", "CZ75-Auto | ","Desert Eagle | ","Dual Berettas | ",
+        "Falchion Knife | ","FAMAS | ","Five-SeveN | ","Flip Knife | ","G3SG1 | ","Galil AR | ","Glock-18 | ","Gut Knife | ", "Huntsman Knife | ","Karambit | ","M249 | ", "M4A1-S | ",
+        "M4A4 | ","M9 Bayonet | ", "MAC-10 | ","MAG-7 | ","MP5-SD | ","MP7 | ", "MP9 | ", "Navaja Knife | ","Negev | ", "Nomad Knife | ","Nova | ","P2000 | ","P250 | ", "P90 | ", "Paracord Knife | ",
+        "PP-Bizon | ","R8 Revolver | ","Sawed-Off | ","SCAR-20 | ", "SG 553 | ", "Shadow Daggers | ","Skeleton Knife | ", "SSG 08 | ","Stiletto Knife | ","Survival Knife | ","Talon Knife | ","Tec-9 | ",
+        "UMP-45 | ","Ursus Knife | ", "USP-S | ", "XM1014 | ")
+    except:
+        start()
 
 t3 = threading.Thread(target = start)
 
@@ -288,14 +280,6 @@ def TakeTradeInfo():
 def TakeItems():
     url = "https://market.csgo.com/api/v2/trade-request-take?key="+key
     request = requests.get(url).json()
-
-
-
-
-    
-
-
-
     
 
 ####### Check balance
@@ -329,44 +313,45 @@ def notification():
 ######## using by "selling_mode" (Checks if trade avaible)
 
 def selling():
-            urlTrade ="https://market.csgo.com/api/ItemRequest/out/1/?key="+ key
-            while active == 1:
+    
+    urlTrade ="https://market.csgo.com/api/ItemRequest/out/1/?key="+key
+    while active == 1:
             
-                try:
-                    
-                    
-                    acceptGive = requests.get(urlTrade).json()
-                    print("Оффер готов: ",acceptGive["success"])
+        try:
+                           
+            acceptGive = requests.get(urlTrade).json()
+            print("Оффер готов: ",acceptGive["success"])
             
-                    if acceptGive["success"] == True:
-                        notification()
-                        time.sleep(30)
-                        GiveTradeInfo()
-                    else: 
-                        time.sleep(30)
-                except Exception:
+            if acceptGive["success"] == True:
+                notification()
+                time.sleep(6)
+                GetTradeInfo()
+            else: 
+                time.sleep(6)
+        except Exception:
                     
-                    print("Ошибка #1")
-                    continue
-                    # Ошибка в отправке запроса на принятие трейда и отправки уведомления  
+            print("Ошибка #1")
+            continue
     
         
 ######## turn on sales
 
 def pinging():
-    global lab6
+    urlping ="https://market.csgo.com/api/v2/ping?key="+key
+    
     while active == 1:
         try:
-            url = 'https://market.csgo.com/api/v2/ping?key='+key
-            ping = requests.get(url).json()
-            print("Продаются вещи: ",ping["success"])
+            ping = requests.get(urlping).json()["success"]
+            print("Продажи включены: ", ping)
+
+
             
-            lab6.config(text=str(ping["success"]))
-            time.sleep(130)
+            lab6.config(text=str(ping))
+            time.sleep(6)
             
-        
-        except NameError or Exception:
+        except:
             print("Ошибка #2")
+            continue
             # Ошибка в отправке запроса на включение трейда
     
 ######## Saling mode
@@ -377,6 +362,9 @@ def selling_mode():
     
     t2.start()
     t1.start()
+
+    t2.join()
+    t1.join()
     
 ####### Refresh inventory
 
@@ -425,9 +413,10 @@ def acton():
     print("Продажи включены!!!")
     global active
     active = 1
+    lab6.grid(column=3,row=3)
+
     selling_mode()
     
-    lab6.grid(column=3,row=3)
     
 
 def actOff():
