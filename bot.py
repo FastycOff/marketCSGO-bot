@@ -361,9 +361,6 @@ def selling_mode():
     
     t2.start()
     t1.start()
-
-    t2.join()
-    t1.join()
     
 ####### Refresh inventory
 
